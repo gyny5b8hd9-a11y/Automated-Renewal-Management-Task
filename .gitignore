@@ -1,0 +1,27 @@
+# 排除含真实数据的文件
+*.xlsx
+*.csv
+*.logs/
+outputs/
+
+# 排除凭证与配置
+.env
+.env.*
+*.local.json
+*.private.*
+config.json
+config/private/
+secrets/
+
+# 排除运行时产物
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# 排除日志
+*.log
+
+# 排除系统文件
+.DS_Store
+Thumbs.db

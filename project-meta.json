@@ -1,0 +1,56 @@
+{
+  "name": "vipthink-renewal-intention",
+  "display_name": "LP续费意向盘自动化",
+  "version": "4.3.0",
+  "description": "VIPTHINK LP续费意向盘全流水线 — BI导出→意向分析→质量诊断→池子统计→LP绩效→小组统计→过程报告→飞书上表→钉钉推送",
+  "category": "数据分析",
+  "tags": ["续费", "意向分析", "LP", "自动化", "流水线", "飞书", "钉钉"],
+  "author": {
+    "team": "VIPTHINK LP 效能团队",
+    "contact": "lp-tools@vipthink.cn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VIPTHINK/team-tools-hub",
+    "path": "tools/vipthink-renewal-intention"
+  },
+  "platforms": ["WorkBuddy", "CLI"],
+  "entry_points": {
+    "skill": "SKILL.md",
+    "pipeline": "scripts/pipeline.py",
+    "core": "scripts/analyze_renewal.py"
+  },
+  "dependencies": {
+    "python": ">=3.10",
+    "packages": ["openpyxl", "playwright"],
+    "tools": ["lark-cli", "node (Playwright)"]
+  },
+  "inputs": {
+    "primary": "SmartBI SIMPLE_REPORT Excel",
+    "required_columns": ["学员ID", "材料全对话"],
+    "optional_columns": ["LP", "池子", "小组", "沟通时间"]
+  },
+  "outputs": {
+    "excel": 7,
+    "markdown": 3,
+    "dingtalk_messages": "4 (weekly) / 1 (daily)",
+    "feishu_sheets": 3
+  },
+  "schedules": {
+    "weekly": "Fridays 09:00 CST (automation-1779429220514)",
+    "daily": "Tue/Wed/Thu/Sat/Sun 09:00 CST (automation-1779530282155)"
+  },
+  "scoring_system": "PlanE (category-cap method)",
+  "scoring_thresholds": {
+    "HIGH": 3,
+    "MEDIUM": 1.5,
+    "RISK": -1
+  },
+  "safety": {
+    "security_checklist": "PUBLIC_SAFE_CHECKLIST.md",
+    "data_scope": "内部 LP-家长对话数据（脱敏后公开）",
+    "no_secrets": true
+  },
+  "changelog": "CHANGELOG.md",
+  "last_updated": "2026-06-10"
+}

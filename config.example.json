@@ -1,0 +1,12 @@
+{
+  "paths": {
+    "python_exe": "/path/to/python",
+    "output_base": "/path/to/output",
+    "smartbi_scripts": "/path/to/smartbi-data-cli/scripts",
+    "lark_cli": "/path/to/lark-cli",
+    "knowledge_dir": "/path/to/knowledge"
+  },
+  "task_name": "haiwaisiwei_yuyifenxi",
+  "report_id": "<YOUR_SMARTBI_REPORT_ID>",
+  "dingtalk_webhook_key": "<YOUR_DINGTALK_WEBHOOK_KEY>"
+}
