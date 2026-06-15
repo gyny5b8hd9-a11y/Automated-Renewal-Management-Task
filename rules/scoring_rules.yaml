@@ -1,0 +1,79 @@
+# 续费意向加权评分规则
+# 参考来源: awfullotlis/Loooo rule_schema.json
+# 更新时间: 2026-05-22
+
+version: "3.0"
+
+signals:
+  positive:
+    - name: "主动询问价格"
+      weight: 3
+      keywords: ["多少钱", "价格", "费用", "怎么收费", "续费价", "收费", "学费"]
+      note: "客户正在认真做购买决策"
+
+    - name: "表达满意"
+      weight: 2
+      keywords: ["喜欢", "进步", "效果好", "继续学", "推荐", "不错", "有进步", "进步很大"]
+
+    - name: "询问课程安排"
+      weight: 2
+      keywords: ["下阶段", "后面学什么", "课程安排", "进阶", "下个级别", "后面课程"]
+
+    - name: "主动续费意向"
+      weight: 4
+      keywords: ["续费", "继续报", "再学", "下学期", "还要学", "接着上"]
+
+    - name: "价格敏感（=高意向）"
+      weight: 1
+      keywords: ["便宜", "优惠", "折扣", "活动", "团购", "优惠价", "便宜点"]
+      note: "讨价还价=正在做购买决策，不等于拒绝"
+
+    - name: "提到同行使用"
+      weight: 2
+      keywords: ["同学也", "朋友也", "邻居", "他也在学", "她也在", "班上"]
+
+  negative:
+    - name: "明确拒绝"
+      weight: -5
+      keywords: ["不续", "不学了", "算了", "不报了", "不需要", "不考虑"]
+      note: "明确拒绝直接降为风险"
+
+    - name: "发起退款"
+      weight: -10
+      keywords: ["退款", "退费", "退课", "退学", "退钱"]
+      note: "退款=直接风险，无论其他信号多强"
+
+    - name: "表达不满"
+      weight: -3
+      keywords: ["不好", "没效果", "浪费", "后悔", "贵了", "没进步", "没用"]
+
+    - name: "沉默不回复"
+      weight: -2
+      check: "连续3次消息未回复"
+      note: "家长失联信号"
+
+    - name: "转到竞品"
+      weight: -4
+      keywords: ["别人家", "某某机构", "火花", "你拍一", "别的课", "试听了别家"]
+
+thresholds:
+  high_intent: 5
+  medium_intent: 2
+  watching: -1
+  risk: -2
+
+special_rules:
+  - rule: "退款发起=直接风险"
+    condition: "contains_refund_keyword"
+    override: "risk"
+    priority: 1
+
+  - rule: "价格敏感=高意向"
+    condition: "contains_price_keyword AND NOT contains_reject_keyword"
+    override: "high_intent"
+    priority: 2
+
+  - rule: "明确拒绝=直接风险"
+    condition: "contains_reject_keyword"
+    override: "risk"
+    priority: 1

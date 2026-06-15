@@ -1,6 +1,7 @@
-# 排除含真实数据的文件
+# 排除含真实数据的文件（samples 目录除外，用于存放脱敏样例）
 *.xlsx
 *.csv
+!samples/**/*.xlsx
 *.logs/
 outputs/
 
